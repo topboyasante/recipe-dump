@@ -7,7 +7,7 @@ export async function GetAllRecipes(query?: string) {
   noStore();
   const data = await prisma.recipe.findMany({
     where: {
-      title: { contains: query },
+      title: { contains: query, },
     },
     orderBy: {
       created_at: "desc",

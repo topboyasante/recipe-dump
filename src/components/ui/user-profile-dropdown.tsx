@@ -50,7 +50,7 @@ export function UserProfileDropdown({ ...props }: Props) {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <Link href={`/profile/${props.user_id}`}>
+              <Link href={`/profile`}>
                 <DropdownMenuItem>Profile</DropdownMenuItem>
               </Link>
             </DropdownMenuGroup>
