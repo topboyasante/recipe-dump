@@ -1,7 +1,6 @@
 "use client";
 import BackButton from "@/components/ui/back-button";
 import { Button } from "@/components/ui/button";
-import RTEditor from "@/components/ui/editor";
 import {
   Form,
   FormControl,
@@ -51,48 +50,46 @@ function CreateRecipeForm({ ...props }: FormProps) {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    // setIsSubmittingForm(true);
-    // if (!selectedFile) {
-    //   toast("No file selected.");
-    //   return;
-    // }
+    setIsSubmittingForm(true);
+    if (!selectedFile) {
+      toast("No file selected.");
+      return;
+    }
 
-    // const formData = new FormData();
-    // formData.append("file", selectedFile);
+    const formData = new FormData();
+    formData.append("file", selectedFile);
 
-    // const response = await fetch(`/api/upload-image`, {
-    //   method: "POST",
-    //   body: formData,
-    // });
+    const response = await fetch(`/api/upload-image`, {
+      method: "POST",
+      body: formData,
+    });
 
-    // if (!response.ok) {
-    //   throw new Error("Failed to upload image.");
-    // }
+    if (!response.ok) {
+      throw new Error("Failed to upload image.");
+    }
 
-    // const { results } = await response.json();
-    // const imageUrl = results.secure_url;
-    // const image_public_id = results.public_id;
+    const { results } = await response.json();
+    const imageUrl = results.secure_url;
+    const image_public_id = results.public_id;
 
-    // // Once the image is uploaded, you can proceed to create the product
-    // const payload = {
-    //   ...values,
-    //   author_id: props.author_id,
-    //   img_url: imageUrl,
-    //   image_public_id,
-    // };
+    // Once the image is uploaded, you can proceed to create the product
+    const payload = {
+      ...values,
+      author_id: props.author_id,
+      img_url: imageUrl,
+      image_public_id,
+    };
 
-    // CreateRecipe(payload)
-    //   .then(() => {
-    //     setIsSubmittingForm(false);
-    //     router.push("/");
-    //     toast("Recipe created");
-    //   })
-    //   .catch((err) => {
-    //     toast(`${err}`);
-    //     setIsSubmittingForm(false);
-    //   });
-
-    console.log(values)
+    CreateRecipe(payload)
+      .then(() => {
+        setIsSubmittingForm(false);
+        router.push("/");
+        toast("Recipe created");
+      })
+      .catch((err) => {
+        toast(`${err}`);
+        setIsSubmittingForm(false);
+      });
   }
 
   function UploadImageToForm(e: ChangeEvent<HTMLInputElement>) {
