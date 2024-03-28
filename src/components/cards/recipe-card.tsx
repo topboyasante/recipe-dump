@@ -10,7 +10,7 @@ type CardProps = {
 
 function RecipeCard({ ...props }: CardProps) {
   return (
-    <div>
+    <Link href={`/recipes/${props.recipe_id}`} className="hover:underline">
       <Image
         src={props.img_url}
         alt={props.title}
@@ -19,11 +19,9 @@ function RecipeCard({ ...props }: CardProps) {
         className="w-full h-[70%] object-cover"
       />
       <div className="w-full h-[30%] flex items-center">
-        <Link href={`/recipes/${props.recipe_id}`} className="hover:underline">
-          <h4>{props.title}</h4>
-        </Link>
+        <h4>{props.title}</h4>
       </div>
-    </div>
+    </Link>
   );
 }
 
