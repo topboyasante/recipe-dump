@@ -6,20 +6,19 @@ import { formatDate } from "@/utils";
 import DOMPurify from "isomorphic-dompurify";
 
 type Props = {
-  data: {
-    id: string;
-    title: string;
-    content: string;
-    img_url: string;
-    image_public_id: string;
-    author_id: string;
-    created_at: Date;
-  };
+  id: string;
+  title: string;
+  content: string;
+  img_url: string;
+  image_public_id: string;
+  author_id: string;
+  created_at: Date;
   user_id: string;
+  created_at_username: string;
 };
 
-function RecipeDetails({ data, user_id }: Props) {
-  const createdByUser = data.author_id === user_id;
+function RecipeDetails({ ...props }: Props) {
+  const createdByUser = props.author_id === props.user_id;
   return (
     <div className="max-w-screen-md mx-auto">
       <div className="mb-8">
@@ -27,16 +26,19 @@ function RecipeDetails({ data, user_id }: Props) {
       </div>
       <div>
         <div className="flex justify-between items-center">
-          <h3>{data.title}</h3>
-          {createdByUser && <DeleteRecipeModal recipe_id={data.id} />}
+          <h3>{props.title}</h3>
+          {createdByUser && <DeleteRecipeModal recipe_id={props.id} />}
         </div>
         <div>
-          <p>{formatDate(data.created_at)}</p>
+          <p>{formatDate(props.created_at)}</p>
+          <p>
+            Created by {createdByUser ? "you" : `${props.created_at_username}`}
+          </p>
         </div>
         <br />
         <Image
-          src={data.img_url as string}
-          alt={data.title as string}
+          src={props.img_url as string}
+          alt={props.title as string}
           width={800}
           height={800}
           className="rounded-xl w-full h-full object-cover"
@@ -46,7 +48,7 @@ function RecipeDetails({ data, user_id }: Props) {
       <div>
         <div
           dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(data.content as string),
+            __html: DOMPurify.sanitize(props.content as string),
           }}
         ></div>
       </div>

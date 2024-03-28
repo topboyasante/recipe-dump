@@ -22,6 +22,17 @@ export async function GetRecipeByID(id: string) {
     where: {
       id: { equals: id },
     },
+    include:{
+      author:{
+        select:{
+          user:{
+            select:{
+              username:true
+            }
+          }
+        }
+      }
+    }
   });
   return data;
 }

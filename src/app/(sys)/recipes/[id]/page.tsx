@@ -18,13 +18,20 @@ export const metadata: Metadata = {
 
 async function Page({ params }: Props) {
   const data = await GetRecipeByID(params.id);
+
   const { user } = await validateRequest();
 
   if (!data) {
     return notFound();
   }
 
-  return <RecipeDetails data={data} user_id={user?.id as string} />;
+  return (
+    <RecipeDetails
+      {...data}
+      user_id={user?.id as string}
+      created_at_username={data.author?.user?.username as string}
+    />
+  );
 }
 
 export default Page;

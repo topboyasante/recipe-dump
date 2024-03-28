@@ -12,6 +12,31 @@ type CreateUserParams = {
   password: string;
 };
 
+export async function GetLoggedInUser() {
+  const { user: LoggedInUser } = await validateRequest();
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: LoggedInUser?.id,
+      },
+      select: {
+        username: true,
+        email: true,
+        id: true,
+        created_at: true,
+        account: {
+          select: {
+            recipes: true,
+          },
+        },
+      },
+    });
+    return user;
+  } catch (error) {
+    return false;
+  }
+}
+
 export async function CreateUser(params: CreateUserParams) {
   const userId = generateId(15);
   try {
