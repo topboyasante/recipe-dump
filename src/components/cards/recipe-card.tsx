@@ -16,9 +16,9 @@ function RecipeCard({ ...props }: CardProps) {
         alt={props.title}
         width={800}
         height={800}
-        className="w-full h-[70%] object-cover"
+        className="w-full h-[300px] object-cover"
       />
-      <div className="w-full h-[30%] flex items-center">
+      <div className="w-full flex items-center">
         <h4>{props.title}</h4>
       </div>
     </Link>
