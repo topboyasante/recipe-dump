@@ -3,6 +3,8 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import "../../styles/tiptap.scss";
 import ToolBar from "./rich-text-toolbar";
+import LineBreak from "@tiptap/extension-hard-break"
+
 
 type Props = {
   onChange: (richtext: string) => void;
@@ -10,7 +12,13 @@ type Props = {
 
 function TipTap({ ...props }: Props) {
   const editor = useEditor({
-    extensions: [StarterKit.configure({})],
+    extensions: [StarterKit.configure({}),LineBreak.extend({
+      addKeyboardShortcuts() {
+        return{
+        'Enter': () => this.editor.commands.setHardBreak(),
+        }
+      },
+    })],
     onUpdate({ editor }) {
       props.onChange(editor.getHTML());
     },

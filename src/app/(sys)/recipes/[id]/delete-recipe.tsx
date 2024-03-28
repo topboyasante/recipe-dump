@@ -28,6 +28,8 @@ function DeleteRecipeModal({ recipe_id }: ModalProps) {
   const router = useRouter();
 
   async function deleteProduct() {
+    router.push("/");
+    toast("Your recipe is being deleted")
     const product = await GetRecipeByID(recipe_id);
     const formData = new FormData();
     formData.append("public_id", `${product?.image_public_id}`);
@@ -40,7 +42,6 @@ function DeleteRecipeModal({ recipe_id }: ModalProps) {
       });
       DeleteRecipe(recipe_id).then(() => {
         setIsSubmitting(false);
-        router.push("/recipes");
         toast(`The recipe was successfully deleted.`);
       });
     } catch (error) {
