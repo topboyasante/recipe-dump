@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
+}
+
+model User {
+  id         String    @id
+  username   String    @unique
+  password   String
+  email      String    @unique
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  sessions   Session[]
+  account    Account?
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model Account {
+  id      String   @id @default(cuid())
+  user_id String   @unique
+  user    User?    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  recipes Recipe[]
+}
+
+model Recipe {
+  id           String      @id @default(cuid())
+  title        String
+  content String
+  img_url        String
+  image_public_id String
+  author       Account? @relation(fields: [author_id], references: [user_id])
+  author_id    String   
+  created_at DateTime  @default(now())
+}
