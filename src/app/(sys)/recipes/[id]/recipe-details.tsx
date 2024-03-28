@@ -3,6 +3,7 @@ import Image from "next/image";
 import React from "react";
 import DeleteRecipeModal from "./delete-recipe";
 import { formatDate } from "@/utils";
+import DOMPurify from "isomorphic-dompurify";
 
 type Props = {
   data: {
@@ -27,7 +28,7 @@ function RecipeDetails({ data, user_id }: Props) {
       <div>
         <div className="flex justify-between items-center">
           <h3>{data.title}</h3>
-          {createdByUser && <DeleteRecipeModal recipe_id={data.id}/>}
+          {createdByUser && <DeleteRecipeModal recipe_id={data.id} />}
         </div>
         <div>
           <p>{formatDate(data.created_at)}</p>
@@ -43,7 +44,11 @@ function RecipeDetails({ data, user_id }: Props) {
       </div>
       <br />
       <div>
-        <div dangerouslySetInnerHTML={{ __html: data.content as string }}></div>
+        <div
+          dangerouslySetInnerHTML={{
+            __html: DOMPurify.sanitize(data.content as string),
+          }}
+        ></div>
       </div>
     </div>
   );
