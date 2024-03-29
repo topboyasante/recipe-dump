@@ -41,7 +41,7 @@ function RecipeDetails({ ...props }: Props) {
           alt={props.title as string}
           width={800}
           height={800}
-          className="rounded-xl w-full h-[500px] object-cover"
+          className="rounded-xl w-full h-[300px] md:h-[500px] object-cover"
         />
       </div>
       <br />
